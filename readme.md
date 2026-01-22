@@ -22,21 +22,21 @@ O projeto utiliza um **pipeline ETL autônomo**, orquestrado localmente, com col
 
 ```mermaid
 graph TD
-    subgraph "1. Extração (Scrapers)"
-        A[WSJ] -->|Playwright| E(Orquestrador Python)
-        B[People's Daily] -->|Playwright| E
-        C[X / Twitter] -->|Playwright| E
-        D[Weibo] -->|Playwright| E
+    subgraph "1. Extração"
+        A[WSJ / People's Daily] -->|Playwright| E(Orquestrador Python)
+        B[X / Weibo] -->|Playwright| E
     end
 
-    subgraph "2. Processamento & Armazenamento"
-        E -->|Limpeza & Tradução| F[(SQLite Database)]
-        F <-->|Query| G[FastAPI Server]
+    subgraph "2. Processamento"
+        E -->|ETL & Tradução| F[(SQLite Database)]
+        F <-->|API REST| G[FastAPI Server]
     end
 
-    subgraph "3. Visualização & Automação"
-        G -->|JSON Data| H[Power BI Dashboard]
-        I[Power Automate Desktop] -->|Trigger| E
-        I -->|Trigger| H
+    subgraph "3. Automação & Entrega"
+        G --> H[Power BI Dashboard]
+        I[Power Automate] -->|1. Run Script| E
+        I -->|2. Refresh Data| H
+        H -.->|Screenshot| I
+        I -->|3. Email Report| J[📩 Stakeholders]
     end
 
