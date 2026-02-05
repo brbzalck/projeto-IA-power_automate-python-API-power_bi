@@ -35,7 +35,7 @@ DB_PATH = os.path.join(BASE_DIR, "database.db")
 # ==========================================
 # Isso define o "contrato" da API. O Power BI vai receber dados assim.
 
-
+ 
 class SentimentItem(BaseModel):
     id_origem: str
     plataforma: str
